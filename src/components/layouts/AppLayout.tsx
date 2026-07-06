@@ -4,23 +4,29 @@ import { useEffect } from "react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ActiveOrgProvider, useActiveOrg } from "@/providers/ActiveOrgProvider";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSidebarPersistence } from "@/hooks/useSidebarPersistence";
 
 import { AppHeader } from "./AppHeader";
 import { AppSidebar } from "./AppSidebar";
+import { CommandPaletteProvider } from "./CommandPalette";
 
 export function AppLayout() {
+  const [sidebarOpen, setSidebarOpen] = useSidebarPersistence(true);
+
   return (
     <ActiveOrgProvider>
       <RequireOrganization>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <AppHeader />
-            <div className="flex-1">
-              <Outlet />
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
+        <CommandPaletteProvider>
+          <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
+            <AppSidebar />
+            <SidebarInset>
+              <AppHeader />
+              <div className="flex-1">
+                <Outlet />
+              </div>
+            </SidebarInset>
+          </SidebarProvider>
+        </CommandPaletteProvider>
       </RequireOrganization>
     </ActiveOrgProvider>
   );
