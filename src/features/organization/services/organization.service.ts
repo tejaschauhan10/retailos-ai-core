@@ -32,7 +32,7 @@ export const organizationService = {
       timezone: input.timezone,
       currency: input.currency,
       owner_id: userId,
-    } as never;
+    };
 
     const { data: org, error } = await supabase
       .from("organizations")
