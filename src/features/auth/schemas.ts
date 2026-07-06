@@ -34,9 +34,11 @@ export const registerSchema = z
     email: emailSchema,
     password: strongPasswordSchema,
     confirmPassword: z.string(),
-    acceptTerms: z.literal(true, {
-      errorMap: () => ({ message: "You must accept the Terms and Privacy Policy" }),
-    }),
+    acceptTerms: z
+      .boolean()
+      .refine((v) => v === true, {
+        message: "You must accept the Terms and Privacy Policy",
+      }),
   })
   .refine((v) => v.password === v.confirmPassword, {
     path: ["confirmPassword"],
