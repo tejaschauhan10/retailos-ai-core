@@ -20,6 +20,7 @@ export const strongPasswordSchema = passwordSchema
 export const loginSchema = z.object({
   email: emailSchema,
   password: z.string().min(1, "Password is required"),
+  remember: z.boolean().optional().default(true),
 });
 export type LoginInput = z.infer<typeof loginSchema>;
 
@@ -33,6 +34,9 @@ export const registerSchema = z
     email: emailSchema,
     password: strongPasswordSchema,
     confirmPassword: z.string(),
+    acceptTerms: z.literal(true, {
+      errorMap: () => ({ message: "You must accept the Terms and Privacy Policy" }),
+    }),
   })
   .refine((v) => v.password === v.confirmPassword, {
     path: ["confirmPassword"],
