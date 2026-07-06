@@ -24,11 +24,15 @@ export const organizationService = {
       name: input.name,
       store_name: input.store_name,
       gst_number: input.gst_number?.trim() ? input.gst_number.trim() : null,
-      phone: input.phone?.trim() ? input.phone.trim() : null,
+      phone: input.phone.trim(),
+      business_category: input.business_category,
+      country: input.country,
+      state: input.state,
+      city: input.city,
       timezone: input.timezone,
       currency: input.currency,
       owner_id: userId,
-    };
+    } as never;
 
     const { data: org, error } = await supabase
       .from("organizations")
