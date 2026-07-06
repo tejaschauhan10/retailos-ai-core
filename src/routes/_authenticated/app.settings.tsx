@@ -45,7 +45,7 @@ function SettingsPage() {
         <Card className="border-border/70">
           <CardHeader>
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-subtle text-brand">
-              <Building2 className="h-4.5 w-4.5" />
+              <Building2 className="h-[1.125rem] w-[1.125rem]" />
             </div>
             <CardTitle className="mt-2 text-base">Organization</CardTitle>
             <CardDescription>Your active workspace.</CardDescription>

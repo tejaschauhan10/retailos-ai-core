@@ -71,7 +71,7 @@ function DashboardPage() {
           <Card key={c.title} className="border-border/70">
             <CardHeader className="space-y-1.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-subtle text-brand">
-                <c.icon className="h-4.5 w-4.5" />
+                <c.icon className="h-[1.125rem] w-[1.125rem]" />
               </div>
               <CardTitle className="text-base">{c.title}</CardTitle>
               <CardDescription>{c.description}</CardDescription>
