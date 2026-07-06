@@ -2,13 +2,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 import type {
   ForgotPasswordInput,
-  LoginInput,
   RegisterInput,
   ResetPasswordInput,
 } from "../schemas";
 
 export const authService = {
-  async login(input: LoginInput) {
+  async login(input: { email: string; password: string }) {
     const { data, error } = await supabase.auth.signInWithPassword(input);
     if (error) throw error;
     return data;
