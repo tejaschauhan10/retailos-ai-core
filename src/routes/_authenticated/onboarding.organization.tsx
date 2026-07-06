@@ -24,6 +24,7 @@ import {
 import { useCreateOrganization } from "@/features/organization/hooks/useCreateOrganization";
 import { useMyMemberships } from "@/features/organization/hooks/useMyMemberships";
 import { CURRENCIES, TIMEZONES } from "@/lib/timezones";
+import { BUSINESS_CATEGORIES, COUNTRIES, INDIAN_STATES } from "@/lib/business";
 
 export const Route = createFileRoute("/_authenticated/onboarding/organization")({
   head: () => ({ meta: [{ title: "Set up your workspace — RetailOS AI" }] }),
@@ -41,7 +42,11 @@ function OnboardingOrganizationPage() {
       name: "",
       store_name: "",
       gst_number: "",
+      business_category: "",
       phone: "",
+      country: "IN",
+      state: "",
+      city: "",
       timezone: "Asia/Kolkata",
       currency: "INR",
     },
@@ -67,6 +72,9 @@ function OnboardingOrganizationPage() {
 
   const timezone = watch("timezone");
   const currency = watch("currency");
+  const businessCategory = watch("business_category");
+  const country = watch("country");
+  const state = watch("state");
 
   return (
     <div className="relative min-h-dvh bg-background">
@@ -114,8 +122,93 @@ function OnboardingOrganizationPage() {
                     <Input id="gst_number" placeholder="29ABCDE1234F1Z5" {...register("gst_number")} />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="phone">Phone (optional)</Label>
+                    <Label htmlFor="phone">Phone</Label>
                     <Input id="phone" type="tel" placeholder="+91 98765 43210" {...register("phone")} />
+                    {formState.errors.phone && (
+                      <p className="text-xs text-destructive">{formState.errors.phone.message}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Business category</Label>
+                  <Select
+                    value={businessCategory}
+                    onValueChange={(v) =>
+                      setValue("business_category", v, { shouldValidate: true })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {BUSINESS_CATEGORIES.map((c) => (
+                        <SelectItem key={c.value} value={c.value}>
+                          {c.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {formState.errors.business_category && (
+                    <p className="text-xs text-destructive">
+                      {formState.errors.business_category.message}
+                    </p>
+                  )}
+                </div>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <div className="space-y-1.5">
+                    <Label>Country</Label>
+                    <Select
+                      value={country}
+                      onValueChange={(v) => {
+                        setValue("country", v, { shouldValidate: true });
+                        if (v !== "IN") setValue("state", "");
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COUNTRIES.map((c) => (
+                          <SelectItem key={c.value} value={c.value}>
+                            {c.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="state">State</Label>
+                    {country === "IN" ? (
+                      <Select
+                        value={state}
+                        onValueChange={(v) =>
+                          setValue("state", v, { shouldValidate: true })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select state" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {INDIAN_STATES.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <Input id="state" placeholder="State / Region" {...register("state")} />
+                    )}
+                    {formState.errors.state && (
+                      <p className="text-xs text-destructive">{formState.errors.state.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="city">City</Label>
+                    <Input id="city" placeholder="Bengaluru" {...register("city")} />
+                    {formState.errors.city && (
+                      <p className="text-xs text-destructive">{formState.errors.city.message}</p>
+                    )}
                   </div>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">

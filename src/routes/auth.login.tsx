@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authService } from "@/features/auth/services/auth.service";
@@ -24,13 +25,14 @@ function LoginPage() {
   const navigate = useNavigate();
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: "", password: "", remember: true },
   });
-  const { register, handleSubmit, formState } = form;
+  const { register, handleSubmit, formState, watch, setValue } = form;
+  const remember = watch("remember");
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await authService.login(values);
+      await authService.login({ email: values.email, password: values.password });
       toast.success("Welcome back");
       navigate({ to: "/app", replace: true });
     } catch (err) {
@@ -83,6 +85,16 @@ function LoginPage() {
           {formState.errors.password && (
             <p className="text-xs text-destructive">{formState.errors.password.message}</p>
           )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="remember"
+            checked={!!remember}
+            onCheckedChange={(v) => setValue("remember", v === true)}
+          />
+          <Label htmlFor="remember" className="text-sm font-normal text-muted-foreground">
+            Remember me on this device
+          </Label>
         </div>
         <Button type="submit" className="w-full" disabled={formState.isSubmitting}>
           {formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

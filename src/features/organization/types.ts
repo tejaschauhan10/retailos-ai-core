@@ -6,6 +6,10 @@ export interface Organization {
   store_name: string;
   gst_number: string | null;
   phone: string | null;
+  business_category: string | null;
+  country: string;
+  state: string | null;
+  city: string | null;
   timezone: string;
   currency: string;
   owner_id: string;

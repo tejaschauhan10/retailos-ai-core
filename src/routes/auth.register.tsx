@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordStrengthMeter } from "@/features/auth/components/PasswordStrengthMeter";
@@ -25,14 +26,27 @@ function RegisterPage() {
   const navigate = useNavigate();
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { fullName: "", email: "", password: "", confirmPassword: "" },
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      acceptTerms: false as unknown as true,
+    },
   });
-  const { register, handleSubmit, formState, watch } = form;
+  const { register, handleSubmit, formState, watch, setValue } = form;
   const password = watch("password");
+  const acceptTerms = watch("acceptTerms");
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      const result = await authService.register(values);
+      const result = await authService.register({
+        fullName: values.fullName,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+        acceptTerms: true,
+      });
       if (!result.session) {
         toast.success("Check your inbox to verify your email");
         navigate({ to: "/auth/verify-email" });
@@ -106,6 +120,39 @@ function RegisterPage() {
           />
           {formState.errors.confirmPassword && (
             <p className="text-xs text-destructive">{formState.errors.confirmPassword.message}</p>
+          )}
+        </div>
+        <div className="space-y-1.5">
+          <div className="flex items-start gap-2">
+            <Checkbox
+              id="acceptTerms"
+              checked={!!acceptTerms}
+              onCheckedChange={(v) =>
+                setValue("acceptTerms", (v === true) as unknown as true, {
+                  shouldValidate: true,
+                })
+              }
+              className="mt-0.5"
+            />
+            <Label
+              htmlFor="acceptTerms"
+              className="text-sm font-normal leading-snug text-muted-foreground"
+            >
+              I agree to the{" "}
+              <a href="/terms" className="text-foreground underline underline-offset-2">
+                Terms
+              </a>{" "}
+              and{" "}
+              <a href="/privacy" className="text-foreground underline underline-offset-2">
+                Privacy Policy
+              </a>
+              .
+            </Label>
+          </div>
+          {formState.errors.acceptTerms && (
+            <p className="text-xs text-destructive">
+              {formState.errors.acceptTerms.message}
+            </p>
           )}
         </div>
         <Button type="submit" className="w-full" disabled={formState.isSubmitting}>

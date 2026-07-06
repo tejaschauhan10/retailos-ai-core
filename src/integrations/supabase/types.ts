@@ -48,6 +48,9 @@ export type Database = {
       }
       organizations: {
         Row: {
+          business_category: string | null
+          city: string | null
+          country: string
           created_at: string
           currency: string
           gst_number: string | null
@@ -55,11 +58,15 @@ export type Database = {
           name: string
           owner_id: string
           phone: string | null
+          state: string | null
           store_name: string
           timezone: string
           updated_at: string
         }
         Insert: {
+          business_category?: string | null
+          city?: string | null
+          country?: string
           created_at?: string
           currency?: string
           gst_number?: string | null
@@ -67,11 +74,15 @@ export type Database = {
           name: string
           owner_id: string
           phone?: string | null
+          state?: string | null
           store_name: string
           timezone?: string
           updated_at?: string
         }
         Update: {
+          business_category?: string | null
+          city?: string | null
+          country?: string
           created_at?: string
           currency?: string
           gst_number?: string | null
@@ -79,6 +90,7 @@ export type Database = {
           name?: string
           owner_id?: string
           phone?: string | null
+          state?: string | null
           store_name?: string
           timezone?: string
           updated_at?: string
