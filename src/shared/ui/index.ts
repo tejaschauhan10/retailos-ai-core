@@ -113,6 +113,7 @@ export { GlobalLoadingOverlay } from "./feedback/GlobalLoadingOverlay";
 export { ProgressIndicator } from "./feedback/ProgressIndicator";
 export { ButtonLoader } from "./feedback/ButtonLoader";
 export { RouteLoader } from "./feedback/RouteLoader";
+export { AppErrorBoundary } from "./feedback/AppErrorBoundary";
 
 // Form primitives
 export { FormField } from "./form/FormField";
