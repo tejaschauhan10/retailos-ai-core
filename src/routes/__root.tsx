@@ -15,6 +15,7 @@ import { ThemeProvider } from "../providers/ThemeProvider";
 import { AuthProvider } from "../providers/AuthProvider";
 import { Toaster } from "../components/ui/sonner";
 import { siteConfig } from "../config/site";
+import { AppErrorBoundary } from "../shared/ui/feedback/AppErrorBoundary";
 
 function NotFoundComponent() {
   return (
@@ -134,7 +135,9 @@ function RootComponent() {
       <ThemeProvider>
         <AuthProvider>
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
+          <AppErrorBoundary>
+            <Outlet />
+          </AppErrorBoundary>
           <Toaster richColors position="top-right" />
         </AuthProvider>
       </ThemeProvider>
