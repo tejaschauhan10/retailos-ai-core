@@ -37,7 +37,7 @@ export class AppErrorBoundary extends Component<AppErrorBoundaryProps, AppErrorB
       if (this.props.fallback) return this.props.fallback;
       return (
         <ErrorPage
-          variant="500"
+          kind="500"
           title="Something went wrong"
           description={this.state.error.message || "An unexpected error occurred."}
           onRetry={this.reset}
