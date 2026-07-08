@@ -18,7 +18,7 @@ export function GlobalLoadingOverlay({ show, label, className }: GlobalLoadingOv
         className,
       )}
     >
-      <Spinner size="lg" />
+      <Spinner size={32} />
       {label ? <span className="text-sm text-muted-foreground">{label}</span> : null}
     </div>
   );
