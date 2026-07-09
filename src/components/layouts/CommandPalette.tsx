@@ -13,6 +13,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { APP_NAV } from "@/config/nav";
+import { MODULE_CATEGORIES, MODULE_CATEGORY_META, getModulesByCategory } from "@/config/modules";
 import { authService } from "@/features/auth/services/auth.service";
 import { toast } from "sonner";
 
@@ -103,6 +104,41 @@ function CommandPalette() {
             );
           })}
         </CommandGroup>
+        <CommandSeparator />
+        {MODULE_CATEGORIES.map((categoryId) => {
+          const modules = getModulesByCategory(categoryId);
+          if (modules.length === 0) return null;
+          return (
+            <CommandGroup
+              key={categoryId}
+              heading={`Workspaces · ${MODULE_CATEGORY_META[categoryId].label}`}
+            >
+              {modules.map((mod) => {
+                const Icon = mod.icon;
+                return (
+                  <CommandItem
+                    key={mod.id}
+                    value={`${mod.title} ${mod.description} ${(mod.keywords ?? []).join(" ")}`}
+                    onSelect={() =>
+                      mod.comingSoon || mod.status !== "live"
+                        ? toast.info(`${mod.title} is coming soon.`)
+                        : go(mod.route)
+                    }
+                    className="gap-2"
+                  >
+                    <Icon className="h-4 w-4 text-muted-foreground" />
+                    <span>{mod.title}</span>
+                    {mod.status !== "live" && (
+                      <span className="ml-auto text-[10px] uppercase tracking-wider text-muted-foreground">
+                        Soon
+                      </span>
+                    )}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          );
+        })}
         <CommandSeparator />
         <CommandGroup heading="Account">
           <CommandItem onSelect={() => go("/app/settings")} className="gap-2">
