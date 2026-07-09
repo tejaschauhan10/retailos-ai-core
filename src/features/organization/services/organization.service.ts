@@ -39,7 +39,8 @@ export const organizationService = {
       .insert(payload)
       .select("*")
       .single();
-    if (error) throw error;
+    if (error) throw new Error(`Organization insert failed: ${error.message}`);
+    if (!org) throw new Error("Organization was created but could not be read back.");
 
     const { error: memberError } = await supabase
       .from("organization_members")
@@ -48,7 +49,7 @@ export const organizationService = {
         user_id: userId,
         role: "owner",
       });
-    if (memberError) throw memberError;
+    if (memberError) throw new Error(`Membership creation failed: ${memberError.message}`);
 
     return org as Organization;
   },
