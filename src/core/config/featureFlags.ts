@@ -22,6 +22,15 @@ export const FEATURE_FLAG_KEYS = [
   "integrations",
   "marketplace",
   "automation",
+  "suppliers",
+  "employees",
+  "purchasing",
+  "warehouse",
+  "customerIntelligence",
+  "inventoryIntelligence",
+  "salesIntelligence",
+  "financeIntelligence",
+  "forecasting",
 ] as const;
 
 export type FeatureFlag = (typeof FEATURE_FLAG_KEYS)[number];
@@ -50,6 +59,15 @@ const DEFAULTS: Record<FeatureFlag, boolean> = {
   integrations: false,
   marketplace: false,
   automation: false,
+  suppliers: false,
+  employees: false,
+  purchasing: false,
+  warehouse: false,
+  customerIntelligence: false,
+  inventoryIntelligence: false,
+  salesIntelligence: false,
+  financeIntelligence: false,
+  forecasting: false,
 };
 
 export const featureFlags: Readonly<Record<FeatureFlag, boolean>> = Object.freeze(
