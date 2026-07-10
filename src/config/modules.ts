@@ -116,7 +116,7 @@ function defineModule(m: ModuleInput): WorkspaceModule {
     title: m.name,
     version: m.version ?? "0.1.0",
     beta: m.beta ?? m.status === "beta",
-    enabled: m.enabled ?? m.status === "live" || m.status === "beta",
+    enabled: m.enabled ?? (m.status === "live" || m.status === "beta"),
     keywords: m.searchKeywords,
   };
 }
