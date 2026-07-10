@@ -9,6 +9,7 @@ import { useSidebarPersistence } from "@/hooks/useSidebarPersistence";
 import { AppHeader } from "./AppHeader";
 import { AppSidebar } from "./AppSidebar";
 import { CommandPaletteProvider } from "./CommandPalette";
+import { FloatingAssistant } from "@/features/workspace/components/FloatingAssistant";
 
 export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useSidebarPersistence(true);
@@ -26,6 +27,7 @@ export function AppLayout() {
               </div>
             </SidebarInset>
           </SidebarProvider>
+          <FloatingAssistant />
         </CommandPaletteProvider>
       </RequireOrganization>
     </ActiveOrgProvider>

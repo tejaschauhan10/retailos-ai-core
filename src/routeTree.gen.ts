@@ -23,7 +23,6 @@ import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth.forgot-password'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
-import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedOnboardingOrganizationRouteImport } from './routes/_authenticated/onboarding.organization'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
 
@@ -96,11 +95,6 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthenticatedAppRoute,
-} as any)
 const AuthenticatedOnboardingOrganizationRoute =
   AuthenticatedOnboardingOrganizationRouteImport.update({
     id: '/onboarding/organization',
@@ -130,7 +124,6 @@ export interface FileRoutesByFullPath {
   '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/onboarding/organization': typeof AuthenticatedOnboardingOrganizationRoute
-  '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -141,13 +134,13 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/app': typeof AuthenticatedAppRouteWithChildren
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/onboarding/organization': typeof AuthenticatedOnboardingOrganizationRoute
-  '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -167,7 +160,6 @@ export interface FileRoutesById {
   '/auth/verify-email': typeof AuthVerifyEmailRoute
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/onboarding/organization': typeof AuthenticatedOnboardingOrganizationRoute
-  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -187,7 +179,6 @@ export interface FileRouteTypes {
     | '/auth/verify-email'
     | '/app/settings'
     | '/onboarding/organization'
-    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -198,13 +189,13 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/reset-password'
+    | '/app'
     | '/auth/forgot-password'
     | '/auth/login'
     | '/auth/register'
     | '/auth/verify-email'
     | '/app/settings'
     | '/onboarding/organization'
-    | '/app'
   id:
     | '__root__'
     | '/'
@@ -223,7 +214,6 @@ export interface FileRouteTypes {
     | '/auth/verify-email'
     | '/_authenticated/app/settings'
     | '/_authenticated/onboarding/organization'
-    | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -338,13 +328,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/app/': {
-      id: '/_authenticated/app/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
     '/_authenticated/onboarding/organization': {
       id: '/_authenticated/onboarding/organization'
       path: '/onboarding/organization'
@@ -364,12 +347,10 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
-  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
-  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
 
 const AuthenticatedAppRouteWithChildren =
