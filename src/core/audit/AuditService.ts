@@ -20,7 +20,7 @@ export class AuditService {
       ...entry,
     };
     if (this.sinks.size === 0) {
-      logger.debug("audit", full);
+      logger.debug("audit", { entry: full });
     } else {
       await Promise.all(
         Array.from(this.sinks).map(async (sink) => {
