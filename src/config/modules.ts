@@ -94,6 +94,10 @@ export interface WorkspaceModule {
   comingSoon?: boolean;
   beta?: boolean;
   enabled?: boolean;
+  /** Optional short badge shown on the module card, e.g. "New", "AI". */
+  badge?: string;
+  /** Marks a module as a default favorite for new workspaces. */
+  favorite?: boolean;
   /** IDs of modules this module depends on (data or auth). */
   dependencies?: string[];
   /** Searchable terms — used by command center and global search. */
